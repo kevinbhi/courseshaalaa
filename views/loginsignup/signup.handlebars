@@ -1,0 +1,30 @@
+<form method="POST" action="/signup">
+
+        <div class="mb-3">
+            <label for="username" class="form-label"> Username </label>
+            <input type="text" class="form-control" id="username" name="username">
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label"> Password </label>
+            <input type="text" class="form-control" id="password" name="password">
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label"> Email </label>
+            <input type="text" class="form-control" id="email" name="email">
+        </div>
+
+        <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="usertype" id="student" value="student" autocomplete="off" checked>
+            <label class="btn btn-outline-dark" for="student">Student</label>          
+
+            <input type="radio" class="btn-check" name="usertype" id="teacher" value="teacher" autocomplete="off">
+            <label class="btn btn-outline-dark" for="teacher">Teacher</label>     
+        </div>
+
+        <div class="mt-5">
+            <button type="submit" class="btn btn-dark"> Submit </button> 
+        </div>
+
+</form>

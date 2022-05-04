@@ -1,0 +1,65 @@
+{{#if navbar}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid ps-0 pe-0">
+          <a class="navbar-brand" href="#">Courshalla</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown link
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+{{/if}}
+
+<div class="container p-5">
+      <form id="videoinput" class="border" enctype="multipart/form-data">
+          <div class="mb-3 p-3">
+            <div class="row">
+              <div class="col-8">
+                <label for="videotitel" class="form-label">Video Title</label>
+                <input type="text" class="form-control" id="videotitle" placeholder="Video Title">
+              </div>
+              <div class="col-4">
+                <label for="sequencenumber" class="form-label">Sequence Number</label>
+                <input type="text" class="form-control" id="sequencenumber" placeholder="sequencenumber">  
+              </div>
+            </div>
+          </div>
+          <div class="mb-3 p-3">
+            <label for="videodescription" class="form-label">Video Description</label>
+            <textarea class="form-control" id="videodescription" rows="3"></textarea>
+          </div>
+          <input type="hidden" value="{{data.coursename}}" name="coursename" id="coursename">
+          <div class="input-group mb-3 p-3">
+            <input type="file" class="form-control" id="video" name="video"  aria-label="Upload">
+            <button class="btn btn-dark" type="submit" id="inputGroupFileAddon04" aria-describedby="video">Upload</button>
+          </div>
+      </form>
+    <div class="container" id="videos">
+      
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/public/js/videouploadteacher.js"></script>

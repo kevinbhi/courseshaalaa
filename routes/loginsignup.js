@@ -5,11 +5,11 @@ const data = require('../data')
 
 
 router.get('/', function(req,res){
-    res.render("./loginsignup/login", {title:"login"})
+    res.render("./loginsignup/login", {title:"login", navbar: false})
 })
 
 router.get('/signup', function(req,res){
-    res.render("./loginsignup/signup", {title:"signup"})
+    res.render("./loginsignup/signup", {title:"signup", navbar:false})
 })
 
 router.post('/signup', async function(req,res){
@@ -28,6 +28,7 @@ router.post('/signup', async function(req,res){
         let flag = await usersdata.addUser(user)
         if(flag){
             req.session.user = {username: body.username, usertype: body.usertype}
+            req.redirect("/maindashboard")
         }
         else{
             console.log("did not inserted")
@@ -51,6 +52,7 @@ router.post('/',async function(req,res){
         if(flag){
             req.session.user = {username: body.username}
             console.log("user entered");
+            res.redirect("/mainpage")
         }
         else{
             console.log("wrong input");

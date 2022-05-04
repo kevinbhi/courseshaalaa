@@ -1,0 +1,83 @@
+{{#if navbar}}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid ps-0 pe-0">
+          <a class="navbar-brand" href="#">Courshalla</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Features</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Pricing</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Dropdown link
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                  <li><a class="dropdown-item" href="#">Action</a></li>
+                  <li><a class="dropdown-item" href="#">Another action</a></li>
+                  <li><a class="dropdown-item" href="#">Something else here</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+    </nav>
+{{/if}}
+
+<div class="container pt-5">
+    <form action="/mainpage/addcourse" method="POST">
+        <div class="mb-3">
+            <div class="row">
+                <div class="col-6 ps-0">
+                    <label for="coursename" class="form-label" style="padding-left: 12px;">Course Name</label>
+                    <input type="text" class="form-control" id="coursename" name="coursename">
+                </div>
+                <div class="col-6 pe-0">
+                    {{!-- <label for="shortdescription" class="form-label">Short Description</label>
+                    <textarea class="form-control" id="shortdescription" name="shortdescription" rows="3"></textarea> --}}
+                    <label for="coursetag" class="form-label" style="padding-left: 12px;">Course Tag</label>
+                    <input type="text" class="form-control" id="coursetag" name="coursetag">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea class="form-control" id="description" name="description" rows="5"></textarea>
+            </div>
+            <div class="row pt-3">
+                <div class="col-6 ps-0">
+                    <label for="startdate" class="form-label" style="padding-left:12px;"> Start Date </label>
+                    <div class="input-group date" id="startdatepicker">
+                        <input type="text" class="form-control" id="startdate" name="startdate">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-white d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-6 pe-0">
+                    <label for="enddate" class="form-label" style="padding-left: 12px;"> End Date </label>
+                    <div class="input-group date" id="enddatepicker">
+                        <input type="text" class="form-control" id="enddate" name="enddate">
+                        <span class="input-group-append">
+                            <span class="input-group-text bg-white d-block">
+                                <i class="fa fa-calendar"></i>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center p-5">
+                <button type="submit" class="btn btn-dark w-25" > Add Course </a>
+            </div>
+        </div>
+    </form>
+</div>

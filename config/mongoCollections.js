@@ -15,5 +15,6 @@ const getCollectionFn = (collection) => {
 module.exports = {
     users: getCollectionFn("users"),
     courses: getCollectionFn("courses"),
-    studentcourses: getCollectionFn("studentcourses")
+    studentcourses: getCollectionFn("studentcourses"),
+    dropdowndata: getCollectionFn('dropdowndata')
 }

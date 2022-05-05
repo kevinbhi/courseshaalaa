@@ -9,7 +9,8 @@ const data = require('../data')
 router.use(upload())
 
 router.get('/',async function(req,res){
-    let username = req.session.user.username;
+    // let username = req.session.user.username;
+    let username = 'user3'
     let coursesData = data.courses;
     let courses = await coursesData.getcourses(username);
     for(x in courses){
@@ -39,15 +40,16 @@ router.post('/addcourse',async function(req,res){
         coursetag: body.coursetag,
         description: body.description,
         startdate: body.startdate,
-        enddate: body.enddate
+        enddate: body.enddate,
+        deployed: 0
         // username: req.session.user.username
     }
     course.username = "user3"
     let coursesData = data.courses;
     try{
         let flag = await coursesData.addcourse(course);
-        if(flag){
-            // req.redirect("/maindashboard")
+        if(flag === "true"){
+            res.redirect("/mainpage")
         }
         else{
             console.log("did not inserted")
@@ -55,7 +57,13 @@ router.post('/addcourse',async function(req,res){
     }catch(e){
         console.log(e)
     }
-    
+})
+
+router.get('/gettagsfordropdown',async function(req,res){
+    let coursesData = data.courses;
+    let tags = await coursesData.gettagsdropdown("tags");
+    console.log(tags[0].tags);
+    return res.json({tags: tags[0].tags});
 })
 
 router.get('/uploadedvideos/:id',async function(req,res){

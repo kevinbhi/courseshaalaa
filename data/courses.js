@@ -2,11 +2,18 @@ const mongoCollections = require('../config/mongoCollections');
 const courses = mongoCollections.courses;
 const studentcourses =mongoCollections.studentcourses;
 const { ObjectId } = require('mongodb');
-const upload = require('express-fileupload')
+const upload = require('express-fileupload');
+const { dropdowndata } = require('../config/mongoCollections');
 
 module.exports = { 
+    gettagsdropdown: async(type)=>{
+        const dropdowndatacollection = await dropdowndata();
+        const info = await dropdowndatacollection.find({}).toArray();
+        return info;
+    },
     addcourse: async (course)=>{
         const coursescollection = await courses()
+        course.deployed = 0;
         const insertInfo = await coursescollection.updateOne({coursename: course.coursename, username: course.username},
             {  
                 $setOnInsert: { 
@@ -16,18 +23,19 @@ module.exports = {
                     "startdate": course.startdate,
                     "enddate": course.enddate,
                     "username": course.username,
-                    "videos": [] 
+                    "videos": [],
+                    "deployed": course.deployed,  
                 } 
             },{upsert:true});
         if(insertInfo.upsertedCount == 0){
             throw "course already exists"
         } 
-        return true;
+        return "true";
     },
 
     getcourses: async (username)=>{
         const coursescollection = await courses()
-        const insertInfo = await coursescollection.find({ username: username }).toArray();
+        const insertInfo = await coursescollection.find({ username: username, deployed: 0 }).toArray();
         return insertInfo;
     },
     
@@ -83,5 +91,21 @@ module.exports = {
 
         const assignments = await studentcoursescollection.find({$and: [{"coursename":coursename}, {"teacherusername":teacherusername},{"assignments.assignment_id": ObjectId(assignment_id)}]},{projection: {"assignments":1, "studentusername": 1, "_id":0}}).toArray();
         return assignments;
+    },
+
+    updatestudentgrades: async(grade,assignment_id,studentusername,teacherusername,coursename)=>{
+        const studentcoursescollection = await studentcourses();
+        const info = await studentcoursescollection.updateOne({$and: [{"coursename":coursename}, {"teacherusername":teacherusername}, {"studentusername": studentusername}, {"assignments.assignment_id": ObjectId(assignment_id)}]} , {$set: {"assignments.$.grade" : Number(grade)}});
+        console.log(info);
+        return false;
+    },
+
+    postgrades: async(teacherusername,data)=>{
+        const studentcoursescollection = await studentcourses();
+        for(x of data.assignment_details){
+            const info = await studentcoursescollection.updateOne({$and: [{"coursename":data.coursename}, {"teacherusername":teacherusername}, {"studentusername": x.studentusername}, {"assignments.assignment_id": ObjectId(data.assignment_id)}]} , {$set: {"assignments.$.grade" : Number(x.grade), "assignments.$.gradesposted" : 0}})
+            console.log(info);
+        }
+        return true;
     }
 }

@@ -37,4 +37,4 @@ const checkEmail = (mail) => {
   return mail;
 };
 
-module.exports = { checkString, checkEmail, checkMobileNo };
+module.exports = { checkString, checkEmail };

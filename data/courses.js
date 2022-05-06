@@ -31,6 +31,7 @@ module.exports = {
           username: course.username,
           videos: [],
           deployed: course.deployed,
+          mycourses:[]
         },
       },
       { upsert: true }

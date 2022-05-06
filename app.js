@@ -35,5 +35,5 @@ app.use(errorMiddleware);
 
 app.listen(3000, async () => {
   console.log("your server is ready!");
-  console.log("Your routes will be running on http://localhost:3000");
+  console.log("Your routes will be running on http://localhost:3000/login");
 });

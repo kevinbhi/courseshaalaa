@@ -16,5 +16,5 @@ module.exports = {
     users: getCollectionFn("users"),
     courses: getCollectionFn("courses"),
     studentcourses: getCollectionFn("studentcourses"),
-    dropdowndata: getCollectionFn('dropdowndata')
+    dropdowndata: getCollectionFn('dropdowndata'),
 }

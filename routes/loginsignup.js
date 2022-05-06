@@ -52,6 +52,7 @@ router.post("/signup", async function (req, res, next) {
     let flag = await usersdata.addUser(user);
     if (flag) {
       req.session.user = { username: body.username, usertype: body.usertype };
+      return res.redirect('/login')
     } else {
       console.log("did not inserted");
       throw new AppError("Failed To insert", ErrorType.unknown_error);

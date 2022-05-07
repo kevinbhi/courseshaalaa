@@ -33,30 +33,32 @@
 {{/if}}
 
 <div class="container p-5">
-      <form id="videoinput" class="border" enctype="multipart/form-data">
+      <div class="row bg-light p-1 m-5">
+        <h3>Please upload the Video File for the course.</h3>
+      </div>
+      <form id="videoinput" class="border bg-dark m-5" enctype="multipart/form-data">
           <div class="mb-3 p-3">
             <div class="row">
               <div class="col-8">
-                <label for="videotitel" class="form-label">Video Title</label>
+                <label for="videotitle" class="form-label" style="color: white;">Video Title</label>
                 <input type="text" class="form-control" id="videotitle" placeholder="Video Title">
-              </div>
-              <div class="col-4">
-                <label for="sequencenumber" class="form-label">Sequence Number</label>
-                <input type="text" class="form-control" id="sequencenumber" placeholder="sequencenumber">  
               </div>
             </div>
           </div>
           <div class="mb-3 p-3">
-            <label for="videodescription" class="form-label">Video Description</label>
+            <label for="videodescription" class="form-label" style="color: white;">Video Description</label>
             <textarea class="form-control" id="videodescription" rows="3"></textarea>
           </div>
           <input type="hidden" value="{{data.coursename}}" name="coursename" id="coursename">
           <div class="input-group mb-3 p-3">
             <input type="file" class="form-control" id="video" name="video"  aria-label="Upload">
-            <button class="btn btn-dark" type="submit" id="inputGroupFileAddon04" aria-describedby="video">Upload</button>
+            <button class="btn btn-success" type="submit" id="inputGroupFileAddon04" aria-describedby="video">Upload</button>
           </div>
       </form>
-    <div class="container" id="videos">
+      <div class="row bg-light p-5">
+        Uploaded Videos
+      </div>
+    <div class="container bg-light" id="videos">
       
     </div>
 </div>

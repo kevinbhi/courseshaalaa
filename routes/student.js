@@ -16,13 +16,15 @@ router.get("/", async function (req, res, next) {
       let coursesData = data.studentcourses;
       let courses = await coursesData.recommendedcourses();
       let enroll=await coursesData.enrolledcourses(username)
+      let recommenda=await coursesData.recommend(username)
   
-      res.render("./mainpage/students", { navbar: true, courses: courses,enrolled:enroll});
+      res.render("./mainpage/students", { navbar: true, courses: courses,enrolled:enroll,recom:recommenda});
     } catch (error) {
       next(error);
     }
   });
 
+  router.post("/")
 
 
 

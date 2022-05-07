@@ -56,12 +56,36 @@ async function enrolledcourses(username){
           .toArray();
         return enrolledinfo;
 }
-async function main(){
-    console.log(await recommendedcourses())
+
+async function recommend(username){
+    const coursescollection= await courses()
+    const studentcoursecollection= await studentcourses()
+    const insertInfo = await coursescollection.find({}).toArray();
+    const enrolledinfo = await studentcoursecollection.find({ $and: [{ studentusername: username },{type:"enrolled"}]},{ projection: { coursename: 1, _id: 0 } }).toArray();
+    
+    for(i=0;i<enrolledinfo.length;i++){
+        recommendations=[]
+        // console.log(insertInfo[i].coursename)
+        for(j=0;j<insertInfo.length;j++){
+           
+            if(insertInfo[j].coursename!==enrolledinfo[i].coursename){
+                recommendations.push(insertInfo[j])
+            }
+
+        }
+    }
+    return recommendations
 }
-main()
+
+
+
+// async function main(){
+//     console.log(await recommend("user1"))
+// }
+// main()
 module.exports={
     addcourse,
     recommendedcourses,
-    enrolledcourses
+    enrolledcourses,
+    recommend
 }

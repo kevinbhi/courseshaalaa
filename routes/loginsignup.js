@@ -52,7 +52,7 @@ router.post("/signup", async function (req, res, next) {
     let flag = await usersdata.addUser(user);
     if (flag) {
       req.session.user = { username: body.username, usertype: body.usertype };
-      return res.redirect('/login')
+      return res.redirect("/login");
     } else {
       console.log("did not inserted");
       throw new AppError("Failed To insert", ErrorType.unknown_error);
@@ -64,7 +64,7 @@ router.post("/signup", async function (req, res, next) {
   console.log(body.username);
 });
 
-router.post("/", async function (req, res) {
+router.post("/", async function (req, res, next) {
   let body = req.body;
   let usersdata = data.users;
   try {

@@ -15,6 +15,7 @@ async function gettagsdropdown(type) {
   }
   return info;
 }
+
 async function addcourse(coursename, studentusername, teacherusername, type) {
   if (!coursename || !studentusername || !teacherusername || !type) {
     throw new AppError(
@@ -32,7 +33,8 @@ async function addcourse(coursename, studentusername, teacherusername, type) {
     assignments: [],
   };
   const insertInfo = await scoursescollection.insertOne(stud);
-  if (!insertInfo.acknowledged || !insertInfo.insertedId) throw "Could not add";
+  if (!insertInfo.acknowledged || !insertInfo.insertedId)
+    throw new AppError("Could not add", ErrorType.unknown_error);
   console.log(await `${coursename} created`);
   const newId = insertInfo.insertedId.toString();
 

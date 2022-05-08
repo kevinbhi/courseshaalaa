@@ -73,9 +73,11 @@ router.post("/addcourse", async function (req, res, next) {
       res.redirect("/mainpage");
     } else {
       console.log("did not inserted");
+      throw new AppError("Failed to insert", ErrorType.unknown_error);
     }
   } catch (e) {
     console.log(e);
+    next(e);
   }
 });
 
@@ -152,12 +154,15 @@ router.get("/details/:id", async function (req, res, next) {
 });
 
 router.get("/:id", async function (req, res, next) {
-  // const coursename = req.params.id
-  // const username = req.session.user.username
-  const username = "user3";
-  const coursename = "Web Technologies";
-  let coursedata = data.courses;
   try {
+    // const coursename = req.params.id
+    // const username = req.session.user.username
+    if (!req.params.id) {
+      throw new AppError("Please send valid id", ErrorType.invalid_request);
+    }
+    const username = "user3";
+    const coursename = "Web Technologies";
+    let coursedata = data.courses;
     let data = await coursedata.getcourse(coursename, username);
     data.coursename = encodeURI(data.coursename);
     res.render("./mainpage/coursedetails", { navbar: true, data: data });
@@ -170,6 +175,9 @@ router.get("/:id", async function (req, res, next) {
 router.post("/addassignment", async function (req, res, next) {
   try {
     // let username = req.session.user.username;
+    if (!req.body) {
+      throw new AppError("Please send all fields", ErrorType.validation_error);
+    }
     let username = "user3";
     let object = req.body;
     console.log(object);
@@ -209,6 +217,17 @@ router.post("/uploadvideo", async function (req, res, next) {
     let videotitle = decodeURI(req.body.videotitle);
     let sequencenumber = decodeURI(req.body.sequencenumber);
     let videodescription = decodeURI(req.body.description);
+    if (
+      !filedata ||
+      !filename ||
+      !username ||
+      !coursename ||
+      !videotitle ||
+      !sequencenumber ||
+      !videodescription
+    ) {
+      throw new AppError("Please send all fields", ErrorType.validation_error);
+    }
 
     let initialpath = "/public/uploads/";
 
@@ -278,8 +297,10 @@ router.post("/deleteassignment", async function (req, res, next) {
 router.post("/deletevideo", async function (req, res, next) {
   try {
     // let username = req.session.user.username;
-
     let reqdata = req.body;
+    if (!reqdata.coursename || !reqdata.deleteId || !reqdata.path) {
+      throw new AppError("Please send all fields", ErrorType.validation_error);
+    }
     let username = "user3";
     let coursename = decodeURI(reqdata.coursename);
     let sequencenumber = decodeURI(reqdata.deleteId);

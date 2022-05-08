@@ -4,6 +4,8 @@ const studentcourses = mongoCollections.studentcourses;
 const { ObjectId } = require("mongodb");
 const upload = require("express-fileupload");
 const { dropdowndata } = require("../config/mongoCollections");
+const AppError = require("../middleware/appError");
+const { ErrorType } = require("../middleware/enum");
 
 module.exports = {
   gettagsdropdown: async (type) => {
@@ -16,6 +18,12 @@ module.exports = {
   },
 
   addcourse: async (course) => {
+    if (!course) {
+      throw new AppError(
+        "Please send valid detail",
+        ErrorType.validation_error
+      );
+    }
     const coursescollection = await courses();
     course.deployed = 0;
     const insertInfo = await coursescollection.updateOne(
@@ -42,6 +50,9 @@ module.exports = {
   },
 
   getcourses: async (username) => {
+    if (!username) {
+      throw new AppError("please send username", ErrorType.validation_error);
+    }
     const coursescollection = await courses();
     const insertInfo = await coursescollection
       .find({ username: username, deployed: 0 })
@@ -60,6 +71,9 @@ module.exports = {
 
   //assignments
   addassignment: async (assignment, username) => {
+    if (!assignment || !username) {
+      throw new AppError("Please send all details", ErrorType.validation_error);
+    }
     assignment._id = ObjectId();
     const coursescollection = await courses();
     insertInfo = await coursescollection
@@ -79,10 +93,16 @@ module.exports = {
       { $and: [{ coursename: assignment.coursename }, { username: username }] },
       { $push: { assignments: assignment } }
     );
+    if (!insertInfo) {
+      throw new AppError("Failed to add assignment", ErrorType.unknown_error);
+    }
     return insertInfo;
   },
 
   getallasignments: async (coursename, username) => {
+    if (!coursename || !username) {
+      throw new AppError("Please send all details", ErrorType.validation_error);
+    }
     const coursescollection = await courses();
     const findInfo = await coursescollection
       .find(
@@ -94,6 +114,9 @@ module.exports = {
   },
 
   deleteassignment: async (coursename, username, sequencenumber) => {
+    if (!coursename || !username || !sequencenumber) {
+      throw new AppError("Please send All details", ErrorType.validation_error);
+    }
     const coursescollection = await courses();
 
     sequencenumber = sequencenumber.split("_")[1];
@@ -114,11 +137,20 @@ module.exports = {
       }
     );
     console.log(updateInfo2);
+    if (!updateInfo2) {
+      throw new AppError("Failed to delete", ErrorType.unknown_error);
+    }
 
     return;
   },
 
   updateassignment: async (assignment, username) => {
+    if (!assignment || !username) {
+      throw new AppError(
+        "Please send all the details",
+        ErrorType.validation_error
+      );
+    }
     const coursescollection = await courses();
 
     // sequencenumber = object.sequencenumber.split("_")[1];
@@ -141,12 +173,18 @@ module.exports = {
       }
     );
     console.log(updateInfo);
+    if (!updateInfo) {
+      throw new AppError("Fail to update", ErrorType.unknown_error);
+    }
 
     return true;
   },
 
   //videos
   addvideo: async (video) => {
+    if (!video) {
+      throw new AppError("Please send video", ErrorType.validation_error);
+    }
     video._id = ObjectId();
     const coursescollection = await courses();
     insertInfo = await coursescollection
@@ -167,9 +205,15 @@ module.exports = {
       },
       { $push: { videos: video } }
     );
+    if (!insertInfo) {
+      throw new AppError("Failed to add video", ErrorType.unknown_error);
+    }
   },
 
   getallvideodetails: async (coursename, username) => {
+    if (!coursename || !username) {
+      throw new AppError("Please send all details", ErrorType.validation_error);
+    }
     const coursescollection = await courses();
     const findInfo = await coursescollection
       .find(
@@ -181,6 +225,12 @@ module.exports = {
   },
 
   deletevideo: async (coursename, username, sequencenumber) => {
+    if (!coursename || !username || !sequencenumber) {
+      throw new AppError(
+        "Please send all the details",
+        ErrorType.validation_error
+      );
+    }
     const coursescollection = await courses();
 
     const findvalue = await coursescollection.updateMany(
@@ -199,12 +249,21 @@ module.exports = {
       }
     );
     console.log(updateInfo2);
+    if (!updateInfo2) {
+      throw new AppError("Failed to delete", ErrorType.unknown_error);
+    }
 
     return;
   },
 
   //assignments
   gettotalssignments: async (coursename, username) => {
+    if (!coursename || !username) {
+      throw new AppError(
+        "Please send all the details",
+        ErrorType.validation_error
+      );
+    }
     const coursescollection = await courses();
 
     const assignments = await coursescollection
@@ -254,6 +313,12 @@ module.exports = {
       { $set: { "assignments.$.grade": Number(grade) } }
     );
     console.log(info);
+    if (!info) {
+      throw new AppError(
+        "failed to update student grade",
+        ErrorType.unknown_error
+      );
+    }
     return false;
   },
 

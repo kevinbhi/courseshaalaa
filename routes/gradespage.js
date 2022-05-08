@@ -76,6 +76,12 @@ router.get("/assignmentdetails/:id", async function (req, res, next) {
 router.get("/:id", async function (req, res, next) {
   try {
     let coursename = req.params.id;
+    if (!coursename) {
+      throw new AppError(
+        "please send valid coursename",
+        ErrorType.validation_error
+      );
+    }
     let username = "user3";
     // console.log(id + " " + username)
 

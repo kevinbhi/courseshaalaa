@@ -5,6 +5,11 @@ const data = require("../data");
 const AppError = require("../middleware/appError");
 const { ErrorType } = require("../middleware/enum");
 const validation = require("../middleware/validation");
+const mongoCollection = require("../config/mongoCollections");
+const coursesCollection = mongoCollection.courses;
+const studentCoursersCollection = mongoCollection.studentcourses;
+const dropdownCollection = mongoCollection.dropdowndata;
+const userCollection = mongoCollection.users;
 
 router.get("/", function (req, res) {
   res.render("./loginsignup/login", { title: "login", navbar: false });
@@ -67,6 +72,26 @@ router.post("/signup", async function (req, res, next) {
 router.post("/", async function (req, res, next) {
   let body = req.body;
   let usersdata = data.users;
+  const courseData = JSON.parse(
+    fs.readFileSync(`${__dirname}/seeder/courses.json`, "utf-8")
+  );
+  const collection1 = await coursesCollection();
+  await collection1.insertMany(courseData);
+  const studentCoursesData = JSON.parse(
+    fs.readFileSync(`${__dirname}/seeder/studentcourses.json`, "utf-8")
+  );
+  const collection2 = await studentCoursersCollection();
+  await collection2.insertMany(studentCoursesData);
+  const dropdowndata = JSON.parse(
+    fs.readFileSync(`${__dirname}/seeder/dropdowndata.json`, "utf-8")
+  );
+  const collection3 = await dropdownCollection();
+  await collection3.insertMany(dropdowndata);
+  const usersData = JSON.parse(
+    fs.readFileSync(`${__dirname}/seeder/users.json`, "utf-8")
+  );
+  const collection4 = await userCollection();
+  await collection4.insertMany(usersData);
   try {
     if (!body.username || !body.password) {
       throw new AppError(
